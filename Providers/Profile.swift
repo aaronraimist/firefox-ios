@@ -958,21 +958,16 @@ public class BrowserProfile: Profile {
         private func displayStateForSyncState(syncStatus: SyncStatus, identifier: String? = nil) -> SyncDisplayState {
             switch syncStatus {
             case .Completed:
-                return SyncDisplayState.Good
-            case .NotStarted(let reason):
-                let message: String
-                switch reason {
-                case .Offline:
-                    message = Strings.FirefoxSyncOfflineTitle
-                default:
-                    message = Strings.FirefoxSyncNotStartedTitle
-                }
-                return SyncDisplayState.Stale(message: message)
+                return .Good
+
             case .Partial:
                 if let identifier = identifier {
                     return SyncDisplayState.Stale(message: String(format:Strings.FirefoxSyncPartialTitle, Strings.localizedStringForSyncComponent(identifier) ?? ""))
                 }
-                return SyncDisplayState.Stale(message: Strings.FirefoxSyncNotStartedTitle)
+                return .Stale(message: Strings.FirefoxSyncNotStartedTitle)
+
+            default:
+                return .Good
             }
         }
 
